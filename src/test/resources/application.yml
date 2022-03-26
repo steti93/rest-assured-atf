@@ -1,3 +1,4 @@
-data:
-  users:
-    userName: DevUser
+test:
+  application:
+    base:
+      uri: https://jsonplaceholder.typicode.com/
