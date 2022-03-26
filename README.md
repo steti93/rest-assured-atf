@@ -7,3 +7,4 @@ In order to do this following system parameter needs to be set on test phase `-D
 Includes Features:
 - SUT Application Health Check
 - Cucumber 7 integrated with Spring Boot Test
+- Cucumber auto report generation and pretty report

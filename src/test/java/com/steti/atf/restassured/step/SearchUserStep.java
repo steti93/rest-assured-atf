@@ -1,6 +1,7 @@
 package com.steti.atf.restassured.step;
 
 import com.steti.atf.restassured.action.UserSearchAction;
+import com.steti.atf.restassured.context.DataUserKeys;
 import com.steti.atf.restassured.context.ScenarioContext;
 import io.cucumber.java.en.Given;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class SearchUserStep {
     @Given("system administrator is searching for user following {string}")
     public void theSystemAdministratorIsSearchingForUserName(String userName) {
         log.info("Retrieving data for following user {}", userName);
-        userSearchAction.searchUserByNameAndReturnUserId(userName);
+        Integer userId = userSearchAction.searchUserByNameAndReturnUserId(userName);
+        scenarioContext.save(DataUserKeys.USER_ID, userId);
     }
 }

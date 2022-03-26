@@ -20,6 +20,7 @@
         <junit-platform.version>1.8.2</junit-platform.version>
         <cucumber.version>7.0.0</cucumber.version>
         <spring-boot-starter.version>2.6.5</spring-boot-starter.version>
+        <jackson-databind.version>2.13.2</jackson-databind.version>
     </properties>
     <dependencies>
         <!-- Start REST-assured dependencies -->
@@ -30,9 +31,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${resassured.version}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
         </dependency>
         <!-- End REST-assured dependencies -->
         <!-- Start Cucumber dependencies -->
@@ -72,7 +73,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
