@@ -12,4 +12,5 @@ Two profiles has been created for CI:
 Includes Features:
 - SUT Application Health Check
 - Cucumber 7 integrated with Spring Boot Test
-- Cucumber auto report generation and pretty report
+- Cucumber auto report that is published automatically and generates a link in execution generation
+- Pretty report that is saved in target/cucumber-reports
