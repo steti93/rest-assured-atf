@@ -23,9 +23,17 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build and Run Tests
-      run: mvn test -Dtest.application.base.uri=https://jsonplaceholder.typicode.com --batch-mode --fail-at-end
+      run: mvn test -Punit-tests -Dtest.application.base.uri=https://jsonplaceholder.typicode.com --batch-mode --fail-at-end
     - name: Publish Test Report
       if: ${{ always() }}
       uses: scacap/action-surefire-report@v1
+    - name: Execute Cucumber Tests
+      run: mvn test -Pe2e-tests -Dtest=CucumberRunner
+    - name: Cucumber Report to Annotations
+      uses: deblockt/cucumber-report-annotations-action@v1.8
+      with:
+        access-token: ${{ secrets.GITHUB_TOKEN }}
+        path: "**/Cucumber.json"
+
 
 
