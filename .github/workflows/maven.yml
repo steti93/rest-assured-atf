@@ -26,6 +26,6 @@ jobs:
       run: mvn test -Dtest.application.base.uri=https://jsonplaceholder.typicode.com --batch-mode --fail-at-end
     - name: Publish Test Report
       if: ${{ always() }}
-      uses: scacap/action-surefire-report@v15
+      uses: scacap/action-surefire-report@v1
 
 
