@@ -12,8 +12,10 @@ public interface UserPostAction {
     List<Integer> getAllPostsIdBaseOnUserId(final Integer userId);
 
     /**
-     * @param postId
-     * @return
+     * Scope is to return a list of all email used for comments under post
+     *
+     * @param postId Integer value
+     * @return Collection of Strings
      */
     List<String> getAllEmailsFromCommentsBaseOnPostId(final Integer postId);
 }
