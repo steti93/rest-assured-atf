@@ -6,8 +6,15 @@
             </pattern>
         </encoder>
     </appender>
+    <appender name="Cucumber" class="com.steti.atf.restassured.formatter.CucumberScenarioAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="Cucumber"/>
     </root>
     <logger name="com.steti.atf.restassured" level="INFO"/>
 </configuration>
