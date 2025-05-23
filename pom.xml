@@ -13,8 +13,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <resassured.version>4.5.1</resassured.version>
         <junit.version>5.8.2</junit.version>
         <junit-platform.version>1.8.2</junit-platform.version>
