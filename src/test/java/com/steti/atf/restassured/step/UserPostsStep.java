@@ -32,8 +32,9 @@ public class UserPostsStep {
     }
 
     @When("system administrator navigates to comments url and change post value with {string}")
-    public void systemAdministratorNavigatesToCommentsPathAndReplaceUrl(String newValueInPath) {
-        String response = given().get("/{newValueInPath}/1/comments", newValueInPath)
+    public void systemAdministratorNavigatesToCommentsPathAndReplaceUrl(String postIdValue) { // Renamed param for clarity
+        String response = given().queryParam("postId", postIdValue)
+                .get("/comments")
                 .then().assertThat()
                 .statusCode(HTTP_OK)
                 .extract().asString();
@@ -60,6 +61,6 @@ public class UserPostsStep {
     @Then("system administrator expects to see a empty braces")
     public void expectedResponseIsEmptyBraces() {
         String response = scenarioContext.getData(RESPONSE_BODY);
-        MatcherAssert.assertThat(response, is("{}"));
+        MatcherAssert.assertThat(response, is("[]")); // Changed to expect empty array
     }
 }

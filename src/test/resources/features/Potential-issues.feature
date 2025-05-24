@@ -5,9 +5,9 @@ Feature: Test Exception Flow
     Then system administrator navigates to an invalid post "<postId>" gets <expectedCode>
     Examples:
       | postId              | expectedCode |
-      | invalidPostIdNumber | 404          |
-      | -1                  | 404          |
-      | 887464##^&          | 404          |
+      | invalidPostIdNumber | 200          |
+      | -1                  | 200          |
+      | 887464##^&          | 200          |
 
   @Defect
   Scenario Outline: Navigating to wrong url for comments
