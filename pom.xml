@@ -13,15 +13,43 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <resassured.version>4.5.1</resassured.version>
-        <junit.version>5.8.2</junit.version>
-        <junit-platform.version>1.8.2</junit-platform.version>
-        <cucumber.version>7.0.0</cucumber.version>
-        <spring-boot-starter.version>2.6.5</spring-boot-starter.version>
-        <jackson-databind.version>2.13.2</jackson-databind.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <lombok.version>1.18.38</lombok.version>
+        <resassured.version>5.5.2</resassured.version>
+        <junit.version>5.10.2</junit.version>
+        <junit-jupiter.version>5.10.2</junit-jupiter.version> 
+        <junit-platform.version>1.10.2</junit-platform.version>
+        <cucumber.version>7.11.2</cucumber.version>
+        <spring-boot-starter.version>3.5.0</spring-boot-starter.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-starter.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-bom</artifactId>
+                <version>${cucumber.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- Start REST-assured dependencies -->
         <dependency>
@@ -33,35 +61,47 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
+            <!-- Version managed by Spring Boot BOM -->
         </dependency>
         <!-- End REST-assured dependencies -->
+
         <!-- Start Cucumber dependencies -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
+            <!-- Version managed by cucumber-bom -->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>${cucumber.version}</version>
+            <!-- Version managed by cucumber-bom -->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
-            <version>${junit-platform.version}</version>
+            <!-- Version managed by junit-bom (via its import of junit-platform-bom) -->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>${cucumber.version}</version>
+            <!-- Version managed by cucumber-bom -->
             <scope>test</scope>
         </dependency>
         <!-- End Cucumber dependencies -->
+
+        <!-- JUnit 5 Engine - needed for running tests -->
+        <!-- junit-jupiter-api is brought in by spring-boot-starter-test, version managed by junit-bom -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <!-- Version managed by junit-bom -->
+            <scope>test</scope>
+        </dependency>
+        <!-- End JUnit 5 Dependencies -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -72,9 +112,25 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>unit-tests</id>
@@ -108,7 +164,14 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M5</version>
+                        <version>3.2.5</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.junit.jupiter</groupId>
+                                <artifactId>junit-jupiter-engine</artifactId>
+                                <version>${junit.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
@@ -120,10 +183,37 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M5</version>
+                        <version>3.2.5</version>
                         <configuration>
                             <testFailureIgnore>true</testFailureIgnore>
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.junit.platform</groupId>
+                                <artifactId>junit-platform-suite</artifactId>
+                                <version>${junit-platform.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>io.cucumber</groupId>
+                                <artifactId>cucumber-junit-platform-engine</artifactId>
+                                <version>${cucumber.version}</version>
+                                <exclusions>
+                                    <exclusion>
+                                        <groupId>org.junit.vintage</groupId>
+                                        <artifactId>junit-vintage-engine</artifactId>
+                                    </exclusion>
+                                    <exclusion>
+                                        <groupId>junit</groupId>
+                                        <artifactId>junit</artifactId>
+                                    </exclusion>
+                                </exclusions>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.junit.jupiter</groupId>
+                                <artifactId>junit-jupiter-engine</artifactId>
+                                <version>${junit.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
